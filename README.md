@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ryanmviajedor
 
-## Getting Started
-
-First, run the development server:
+Personal portfolio for Ryan Viajedor — Mobile Team Lead. Next.js 16 (App Router),
+React 19, TypeScript, Tailwind v4, shadcn/ui.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Design system
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The design originates from a Stitch export, which ships a **Tailwind v3 JS config**.
+This project runs **Tailwind v4** (CSS-first), so the token set was translated into
+`@theme` in `src/app/globals.css`. Class names are unchanged from the mockup —
+`bg-surface-container-low`, `text-headline-lg`, `p-space-md`, `max-w-container-max`
+all resolve as they did, including per-size line-height, tracking, and weight.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`globals.css` is the single source of truth for colour, spacing, radius, and type.
+shadcn primitives are bridged onto those tokens (`--color-ring: amber-accent`, etc.)
+rather than carrying a second palette, so every primitive inherits the design language.
 
-## Learn More
+Light-only by design: the export declared `darkMode: "class"` but shipped no dark
+palette, so the flag was dropped rather than half-implemented.
 
-To learn more about Next.js, take a look at the following resources:
+## Content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Page copy lives in `src/content/*.ts` as typed data, not JSX. Adding a project means
+appending to `projects.ts` — the alternating layout, badges, and metrics follow.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Icons
 
-## Deploy on Vercel
+Material Symbols, subsetted to the ~25 glyphs actually used. The `ICON_NAMES` union in
+`src/components/site/icon.tsx` type-checks call sites *and* generates the `icon_names`
+subset request in `layout.tsx`. Add an icon there and nowhere else.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contact form & email
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`ContactForm` → `submitContact` server action → `sendMail()`. Validation is a single
+zod schema (`src/lib/validation.ts`) shared by client and server, so the two cannot
+drift. A honeypot field accepts bot submissions silently without sending.
+
+Two flows fire per submission, with deliberately different failure semantics:
+
+| Flow | Recipient | On failure |
+|---|---|---|
+| Notification (`src/emails/enquiry-notification.tsx`) | You. `Reply-To` is the enquirer, so Reply just works. | **Fails the submission** — this is the deliverable. |
+| Acknowledgement (`src/emails/enquiry-acknowledgement.tsx`) | The enquirer. | Logged and swallowed — a lost courtesy email must never turn a received enquiry into a failed one. |
+
+Email is optional. With `RESEND_API_KEY` unset, submissions are validated, accepted,
+and logged to the server console — the form works locally with zero config. Set the
+key and `CONTACT_FROM_EMAIL` / `CONTACT_TO_EMAIL` become required; `src/instrumentation.ts`
+validates at server boot so a half-configured deploy fails immediately and visibly
+rather than looking healthy until someone tries to contact you.
+
+> **Test-sender caveat.** On Resend's `onboarding@resend.dev` sender, delivery is
+> restricted to your own account email. The notification lands; the acknowledgement to
+> a real enquirer is rejected. That is why the two flows fail differently. Verify a
+> domain in Resend and update `CONTACT_FROM_EMAIL` to lift the restriction.
+
+Email templates use React Email. The palette is mirrored in `src/emails/theme.ts` —
+mail clients can't read CSS custom properties, so keep it in sync with `@theme`.
+
+## Checks
+
+```bash
+npx tsc --noEmit && npm run lint && npm run build
+```
