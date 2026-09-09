@@ -1,3 +1,5 @@
+import { site } from "@/content/site";
+
 export type Channel = {
   icon: string;
   eyebrow: string;
@@ -10,21 +12,21 @@ export const channels: Channel[] = [
   {
     icon: "mail",
     eyebrow: "Email Me",
-    label: "ryan@viajedor.com",
-    href: "mailto:ryan@viajedor.com",
+    label: site.email,
+    href: `mailto:${site.email}`,
   },
   {
     icon: "share",
     eyebrow: "Professional Profile",
     label: "LinkedIn Network",
-    href: "https://linkedin.com",
+    href: site.links.linkedin,
     external: true,
   },
   {
     icon: "code",
     eyebrow: "Code Repositories",
     label: "GitHub Profile",
-    href: "https://github.com",
+    href: site.links.github,
     external: true,
   },
 ];

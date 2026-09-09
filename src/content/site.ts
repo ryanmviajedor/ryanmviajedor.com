@@ -5,12 +5,12 @@ export const site = {
   tagline: "Mobile products built to ship.",
   location: "Riyadh, Saudi Arabia",
   timezone: "UTC+3 (GMT+3)",
-  email: "ryan@viajedor.com",
-  url: "https://ryanviajedor.com",
+  email: "hello@ryanmviajedor.com",
+  url: "https://ryanmviajedor.com",
   availability: "Available for select projects",
   links: {
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
+    linkedin: "https://linkedin.com/in/ryanmviajedor",
+    github: "https://github.com/ryanmviajedor",
   },
 } as const;
 
