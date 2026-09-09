@@ -11,6 +11,7 @@ export const metadata = {
   title: "Work",
   description:
     "Selected mobile products and engineering systems built for real users — Aldrees, payments, delivery automation, and cross-platform architecture.",
+  alternates: { canonical: "/work" },
 };
 
 export default function WorkPage() {

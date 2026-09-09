@@ -7,6 +7,7 @@ export const metadata = {
   title: "Process",
   description:
     "How I build production mobile systems — from product discovery through scalable architecture, testing, automated delivery, and long-term support.",
+  alternates: { canonical: "/process" },
 };
 
 export default function ProcessPage() {

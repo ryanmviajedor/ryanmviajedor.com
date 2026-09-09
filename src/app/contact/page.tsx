@@ -10,6 +10,7 @@ export const metadata = {
   title: "Contact",
   description:
     "Get in touch about mobile engineering, architecture consulting, or team lead engagements. Based in Riyadh, working globally.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {

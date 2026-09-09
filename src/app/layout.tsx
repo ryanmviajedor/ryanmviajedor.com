@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { ICON_SUBSET } from "@/components/site/icon";
@@ -24,6 +24,11 @@ export const metadata: Metadata = {
   },
   description:
     "Mobile Team Lead specializing in Flutter, native Android & iOS, CI/CD, Fastlane, payments, APIs, and production app delivery.",
+  alternates: { canonical: "/" },
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  category: "technology",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -38,7 +43,24 @@ export const metadata: Metadata = {
     title: `${site.name} · ${site.role}`,
     description: "Mobile products built to ship.",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#fbf9f5",
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
 };
 
 const personSchema = {
@@ -62,6 +84,18 @@ const personSchema = {
     "Fastlane",
   ],
   sameAs: [site.links.linkedin, site.links.github],
+  worksFor: { "@type": "Organization", name: "Independent" },
+  telephone: site.phones.map((p) => p.dial),
+};
+
+/** Lets search engines treat the domain as a named site, not loose pages. */
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: site.name,
+  url: site.url,
+  inLanguage: "en",
+  publisher: { "@type": "Person", name: site.name },
 };
 
 export default function RootLayout({
@@ -81,7 +115,9 @@ export default function RootLayout({
       <body>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([personSchema, websiteSchema]),
+          }}
         />
         <a
           href="#main"
