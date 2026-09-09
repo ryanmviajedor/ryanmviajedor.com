@@ -12,6 +12,7 @@ export const ICON_NAMES = [
   "architecture",
   "arrow_forward",
   "bolt",
+  "call",
   "chat",
   "close",
   "code",

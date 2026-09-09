@@ -8,13 +8,24 @@ export type Channel = {
   external?: boolean;
 };
 
-export const channels: Channel[] = [
+/** Direct lines — email and phone. Shown first and most prominently. */
+export const primaryChannels: Channel[] = [
   {
     icon: "mail",
-    eyebrow: "Email Me",
+    eyebrow: "Email",
     label: site.email,
     href: `mailto:${site.email}`,
   },
+  ...site.phones.map((phone) => ({
+    icon: "call",
+    eyebrow: `Phone · ${phone.region}`,
+    label: phone.display,
+    href: `tel:${phone.dial}`,
+  })),
+];
+
+/** Secondary profiles, de-emphasised below the direct lines. */
+export const socialChannels: Channel[] = [
   {
     icon: "share",
     eyebrow: "Professional Profile",
@@ -30,11 +41,3 @@ export const channels: Channel[] = [
     external: true,
   },
 ];
-
-export const projectTypes = [
-  { value: "ios", label: "iOS Application Development" },
-  { value: "android", label: "Android Application Development" },
-  { value: "fullstack", label: "Cross-Platform / Flutter / React Native" },
-  { value: "consulting", label: "Mobile Architecture & Consulting" },
-  { value: "other", label: "Other Inquiry" },
-] as const;

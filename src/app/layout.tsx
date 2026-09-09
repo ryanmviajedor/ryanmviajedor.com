@@ -4,7 +4,6 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { ICON_SUBSET } from "@/components/site/icon";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
-import { Toaster } from "@/components/ui/sonner";
 import { site } from "@/content/site";
 
 import "./globals.css";
@@ -95,7 +94,6 @@ export default function RootLayout({
           {children}
         </main>
         <SiteFooter />
-        <Toaster position="bottom-right" />
       </body>
     </html>
   );

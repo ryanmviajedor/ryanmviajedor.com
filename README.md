@@ -34,32 +34,15 @@ Material Symbols, subsetted to the ~25 glyphs actually used. The `ICON_NAMES` un
 `src/components/site/icon.tsx` type-checks call sites *and* generates the `icon_names`
 subset request in `layout.tsx`. Add an icon there and nowhere else.
 
-## Contact form & email
+## Contact
 
-`ContactForm` → `submitContact` server action → `sendMail()`. Validation is a single
-zod schema (`src/lib/validation.ts`) shared by client and server, so the two cannot
-drift. A honeypot field accepts bot submissions silently without sending.
+The Contact page lists direct lines only — email and phone, from `src/content/site.ts`.
+There is no form and no mail provider: nothing to configure, no secrets, no server
+runtime for contact. `src/content/contact.ts` splits those lines into
+`primaryChannels` (email, phones) and `socialChannels` (LinkedIn, GitHub).
 
-Two flows fire per submission, with deliberately different failure semantics:
-
-| Flow | Recipient | On failure |
-|---|---|---|
-| Notification (`src/emails/enquiry-notification.tsx`) | You. `Reply-To` is the enquirer, so Reply just works. | **Fails the submission** — this is the deliverable. |
-| Acknowledgement (`src/emails/enquiry-acknowledgement.tsx`) | The enquirer. | Logged and swallowed — a lost courtesy email must never turn a received enquiry into a failed one. |
-
-Email is optional. With `RESEND_API_KEY` unset, submissions are validated, accepted,
-and logged to the server console — the form works locally with zero config. Set the
-key and `CONTACT_FROM_EMAIL` / `CONTACT_TO_EMAIL` become required; `src/instrumentation.ts`
-validates at server boot so a half-configured deploy fails immediately and visibly
-rather than looking healthy until someone tries to contact you.
-
-> **Test-sender caveat.** On Resend's `onboarding@resend.dev` sender, delivery is
-> restricted to your own account email. The notification lands; the acknowledgement to
-> a real enquirer is rejected. That is why the two flows fail differently. Verify a
-> domain in Resend and update `CONTACT_FROM_EMAIL` to lift the restriction.
-
-Email templates use React Email. The palette is mirrored in `src/emails/theme.ts` —
-mail clients can't read CSS custom properties, so keep it in sync with `@theme`.
+Phone numbers carry both a `display` and a `dial` form so the visible text stays
+readable while `tel:` links stay valid.
 
 ## Checks
 

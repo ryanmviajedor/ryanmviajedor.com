@@ -1,11 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 
-import { ContactForm } from "@/components/contact/contact-form";
 import { Icon, type IconName } from "@/components/site/icon";
 import { Button } from "@/components/ui/button";
-import { channels } from "@/content/contact";
+import { primaryChannels, socialChannels, type Channel } from "@/content/contact";
 import { site } from "@/content/site";
+import { cn } from "@/lib/utils";
 
 export const metadata = {
   title: "Contact",
@@ -47,7 +46,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Form + channels */}
+      {/* Direct lines + operating base */}
       <section className="mx-auto max-w-container-max px-gutter pb-space-2xl">
         <div className="grid grid-cols-1 items-start gap-space-xl lg:grid-cols-12">
           <div className="relative overflow-hidden rounded-xl bg-surface-container-low p-space-lg shadow-sm lg:col-span-7 md:p-space-xl">
@@ -55,68 +54,52 @@ export default function ContactPage() {
               aria-hidden="true"
               className="pointer-events-none absolute -top-20 -right-20 size-64 rounded-full bg-primary/5 blur-3xl"
             />
-            <h2 className="mb-space-md text-headline-md text-text-charcoal">
-              Send a Message
+            <h2 className="mb-space-2xs text-headline-md text-text-charcoal">
+              Reach me directly
             </h2>
-            <ContactForm />
-          </div>
+            <p className="mb-space-lg text-body-md text-on-surface-variant">
+              Email or call — whichever suits. I&apos;m on {site.timezone.split(" ")[0]},
+              and reply to most messages within a working day.
+            </p>
 
-          <div className="flex flex-col gap-space-lg lg:col-span-5">
-            <div className="flex flex-col gap-space-md rounded-xl bg-surface-container-low p-space-lg shadow-sm">
-              <h2 className="text-headline-sm text-text-charcoal">Direct Channels</h2>
-              <ul className="flex flex-col gap-space-sm">
-                {channels.map((channel) => (
+            <ul className="flex flex-col gap-space-sm">
+              {primaryChannels.map((channel) => (
+                <li key={channel.href}>
+                  <ChannelRow channel={channel} prominent />
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-space-lg border-t border-border-subtle/60 pt-space-md">
+              <span className="mb-space-xs block text-label-md uppercase tracking-wider text-outline">
+                Elsewhere
+              </span>
+              <ul className="flex flex-col gap-space-2xs">
+                {socialChannels.map((channel) => (
                   <li key={channel.href}>
-                    <a
-                      className="group flex items-center justify-between rounded-lg bg-surface-container-lowest p-space-sm transition-colors hover:bg-surface-container"
-                      href={channel.href}
-                      {...(channel.external
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                    >
-                      <span className="flex items-center gap-space-sm">
-                        <span className="flex size-10 items-center justify-center rounded-full bg-primary/5 transition-colors group-hover:bg-amber-accent/10">
-                          <Icon
-                            name={channel.icon as IconName}
-                            className="text-text-charcoal group-hover:text-amber-accent"
-                          />
-                        </span>
-                        <span className="flex flex-col">
-                          <span className="text-label-md text-outline">
-                            {channel.eyebrow}
-                          </span>
-                          <span className="text-body-md font-medium text-text-charcoal">
-                            {channel.label}
-                          </span>
-                        </span>
-                      </span>
-                      <Icon
-                        name="arrow_forward"
-                        className="text-outline transition-transform group-hover:translate-x-1"
-                      />
-                    </a>
+                    <ChannelRow channel={channel} />
                   </li>
                 ))}
               </ul>
             </div>
+          </div>
 
-            <div className="flex flex-col gap-space-md rounded-xl bg-surface-container-low p-space-lg shadow-sm">
-              <h2 className="text-headline-sm text-text-charcoal">Operating Base</h2>
-              <p className="text-body-md text-on-surface-variant">
-                Based in Riyadh, collaborating with ambitious founders and
-                engineering teams globally across time zones.
-              </p>
-              <div className="relative h-48 w-full overflow-hidden rounded-lg shadow-inner">
-                <Image
-                  src="/images/riyadh.jpg"
-                  alt="A stylized map view of Riyadh showing modern towers and illuminated streets at dusk."
-                  fill
-                  sizes="(min-width: 1024px) 420px, 100vw"
-                  className="object-cover"
-                />
-                <div className="absolute bottom-space-sm left-space-sm rounded bg-surface/90 px-space-xs py-space-3xs text-label-md font-semibold text-text-charcoal backdrop-blur-md">
-                  {site.location} ({site.timezone.split(" ")[0]})
-                </div>
+          <div className="flex flex-col gap-space-md rounded-xl bg-surface-container-low p-space-lg shadow-sm lg:col-span-5">
+            <h2 className="text-headline-sm text-text-charcoal">Operating Base</h2>
+            <p className="text-body-md text-on-surface-variant">
+              Based in Riyadh, collaborating with ambitious founders and
+              engineering teams globally across time zones.
+            </p>
+            <div className="relative h-48 w-full overflow-hidden rounded-lg shadow-inner">
+              <Image
+                src="/images/riyadh.jpg"
+                alt="A stylized map view of Riyadh showing modern towers and illuminated streets at dusk."
+                fill
+                sizes="(min-width: 1024px) 420px, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute bottom-space-sm left-space-sm rounded bg-surface/90 px-space-xs py-space-3xs text-label-md font-semibold text-text-charcoal backdrop-blur-md">
+                {site.location} ({site.timezone.split(" ")[0]})
               </div>
             </div>
           </div>
@@ -139,20 +122,73 @@ export default function ContactPage() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-space-sm">
             <Button asChild variant="contained" size="lg">
-              <Link href="#contact-form">
-                Let&apos;s talk
-                <Icon name="chat" className="text-[18px]" />
-              </Link>
+              <a href={`mailto:${site.email}`}>
+                Email me
+                <Icon name="mail" className="text-[18px]" />
+              </a>
             </Button>
             <Button asChild variant="secondary" size="lg">
-              <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer">
-                LinkedIn
-                <Icon name="open_in_new" className="text-[18px]" />
+              <a href={`tel:${site.phones[0].dial}`}>
+                Call {site.phones[0].region}
+                <Icon name="call" className="text-[18px]" />
               </a>
             </Button>
           </div>
         </div>
       </section>
     </div>
+  );
+}
+
+function ChannelRow({
+  channel,
+  prominent = false,
+}: {
+  channel: Channel;
+  prominent?: boolean;
+}) {
+  return (
+    <a
+      className={cn(
+        "group flex items-center justify-between rounded-lg bg-surface-container-lowest transition-colors hover:bg-surface-container",
+        prominent ? "p-space-sm" : "px-space-sm py-space-xs"
+      )}
+      href={channel.href}
+      {...(channel.external
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+    >
+      <span className="flex min-w-0 items-center gap-space-sm">
+        <span
+          className={cn(
+            "flex items-center justify-center rounded-full bg-primary/5 transition-colors group-hover:bg-amber-accent/10",
+            prominent ? "size-10" : "size-8"
+          )}
+        >
+          <Icon
+            name={channel.icon as IconName}
+            className={cn(
+              "text-text-charcoal group-hover:text-amber-accent",
+              prominent ? "" : "text-[18px]"
+            )}
+          />
+        </span>
+        <span className="flex min-w-0 flex-col">
+          <span className="text-label-md text-outline">{channel.eyebrow}</span>
+          <span
+            className={cn(
+              "truncate font-medium text-text-charcoal",
+              prominent ? "text-body-lg" : "text-body-md"
+            )}
+          >
+            {channel.label}
+          </span>
+        </span>
+      </span>
+      <Icon
+        name="arrow_forward"
+        className="shrink-0 text-outline transition-transform group-hover:translate-x-1"
+      />
+    </a>
   );
 }
