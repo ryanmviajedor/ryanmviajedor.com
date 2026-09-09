@@ -13,7 +13,7 @@ export const site = {
     { region: "PH", display: "+63 997 534 4907", dial: "+639975344907" },
   ],
   links: {
-    linkedin: "https://linkedin.com/in/ryanmviajedor",
+    linkedin: "https://www.linkedin.com/in/ryanviajedor/",
     github: "https://github.com/ryanmviajedor",
   },
 } as const;
