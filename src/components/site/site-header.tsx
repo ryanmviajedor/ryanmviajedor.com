@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 
-import { Icon } from "@/components/site/icon";
 import { MobileNav } from "@/components/site/mobile-nav";
 import { SiteNav } from "@/components/site/site-nav";
 import { site } from "@/content/site";
@@ -17,12 +17,21 @@ export function SiteHeader() {
         <SiteNav />
 
         <div className="flex items-center gap-space-sm">
-          <div
-            aria-hidden="true"
-            className="hidden size-8 items-center justify-center rounded-full bg-primary md:flex"
+          {/* Replaces the mockup's generic person glyph, which was a decorative
+              div that looked like an account control but did nothing. */}
+          <Link
+            href="/"
+            aria-label={`${site.name} — about`}
+            className="hidden rounded-full ring-1 ring-border-subtle transition-all hover:ring-amber-accent md:block"
           >
-            <Icon name="person" className="text-[18px] text-on-primary" />
-          </div>
+            <Image
+              src="/images/ryan-portrait.jpg"
+              alt=""
+              width={36}
+              height={36}
+              className="size-9 rounded-full object-cover"
+            />
+          </Link>
           <MobileNav />
         </div>
       </div>

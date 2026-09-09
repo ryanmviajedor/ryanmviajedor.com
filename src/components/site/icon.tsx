@@ -24,7 +24,6 @@ export const ICON_NAMES = [
   "menu",
   "monitoring",
   "open_in_new",
-  "person",
   "rocket_launch",
   "schedule",
   "settings_suggest",
