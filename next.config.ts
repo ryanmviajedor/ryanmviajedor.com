@@ -13,14 +13,25 @@ import type { NextConfig } from "next";
  *
  * The Google Fonts entries are for the subsetted Material Symbols icon font;
  * Plus Jakarta Sans is self-hosted by next/font and needs no exception.
+ *
+ * Development needs two extra allowances, and gets them ONLY in development:
+ *
+ *   'unsafe-eval' — React's dev build uses eval() for debugging features such
+ *     as reconstructing callstacks across environments, and Turbopack uses it
+ *     for HMR. React never calls eval() in a production build, so the shipped
+ *     policy stays strict.
+ *   ws: / wss: — the HMR socket. Browsers disagree on whether 'self' covers
+ *     the ws: scheme, so it is named explicitly rather than relied upon.
  */
+const isDev = process.env.NODE_ENV === "development";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob:",
-  "connect-src 'self'",
+  `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
   "frame-ancestors 'none'",
   "frame-src 'none'",
   "object-src 'none'",
