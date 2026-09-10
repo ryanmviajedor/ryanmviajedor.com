@@ -10,6 +10,13 @@
 export type CaseStudyLink = {
   label: string;
   href: string;
+  /**
+   * Official store badge. When present the link renders as the badge instead
+   * of a text pill; `label` becomes its alt text and the link's accessible
+   * name. Sizes are chosen so both badges' artwork renders 40px tall — see the
+   * note on the store links below.
+   */
+  badge?: { src: string; width: number; height: number };
 };
 
 export type Screenshot = {
@@ -55,6 +62,33 @@ export const caseStudies: CaseStudy[] = [
       value: "629K+",
       caption: "Downloads across the App Store and Google Play",
     },
+    image: {
+      src: "/images/aldrees-app.webp",
+      alt: "Four iPhone screens from the Aldrees app: sign-in, a map of Aldrees fuel stations, the fleet and finance menu, and a balance top-up screen offering Apple Pay.",
+    },
+    /*
+     * Apple canonicalises to the numeric id, which avoids percent-encoding the
+     * Arabic slug in the original URL. Both verified reachable.
+     *
+     * Badges are the unmodified official assets, as both vendors' brand
+     * guidelines require. Their canvases differ: Apple's is nearly all
+     * artwork, while Google's carries 41px of mandated clear space on every
+     * side, so its artwork is only 67% of canvas height. Rendering Google's
+     * canvas at 60px and Apple's at 40px makes both artworks 40px tall —
+     * without that compensation Google's badge looks noticeably smaller.
+     */
+    links: [
+      {
+        label: "Download on the App Store",
+        href: "https://apps.apple.com/sa/app/id6738043230",
+        badge: { src: "/images/badge-app-store.svg", width: 120, height: 40 },
+      },
+      {
+        label: "Get it on Google Play",
+        href: "https://play.google.com/store/apps/details?id=com.waie.aldrees.mobile",
+        badge: { src: "/images/badge-google-play.png", width: 155, height: 60 },
+      },
+    ],
 
     /*
      * TODO(ryan): fill any of the fields below and the detail page at

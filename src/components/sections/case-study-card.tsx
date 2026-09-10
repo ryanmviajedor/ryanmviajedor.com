@@ -87,6 +87,52 @@ export function CaseStudyCard({
               </div>
             ) : null}
 
+            {/* Store listings and write-ups. Third-party proof the product
+                shipped, so these sit above the internal case-study link.
+                items-center aligns the two badges' artwork optically, since
+                their canvases carry different amounts of clear space. */}
+            {study.links?.length ? (
+              <ul className="flex flex-wrap items-center gap-space-2xs">
+                {study.links.map((link) =>
+                  link.badge ? (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block rounded-lg transition-opacity hover:opacity-80"
+                      >
+                        {/* Plain img: these are fixed-size vendor assets, and
+                            next/image would need dangerouslyAllowSVG for the
+                            Apple badge. Dimensions are set to avoid layout shift. */}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={link.badge.src}
+                          alt={link.label}
+                          width={link.badge.width}
+                          height={link.badge.height}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </a>
+                    </li>
+                  ) : (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-space-2xs rounded-lg bg-surface-container-lowest px-space-sm py-space-2xs text-body-sm font-medium text-text-charcoal transition-colors hover:bg-surface-container hover:text-amber-text"
+                      >
+                        {link.label}
+                        <Icon name="open_in_new" className="text-[16px] text-outline" />
+                      </a>
+                    </li>
+                  )
+                )}
+              </ul>
+            ) : null}
+
             {detailed ? (
               <Link
                 href={`/work/${study.slug}`}
@@ -106,7 +152,9 @@ export function CaseStudyCard({
           <div
             className={cn("lg:col-span-6", reversed && "order-2 lg:order-1")}
           >
-            <div className="relative h-80 w-full overflow-hidden rounded-xl shadow-md transition-transform duration-500 group-hover:scale-[1.01] md:h-96">
+            {/* 16:9 matches the device-mockup key art these use, so the
+                composition isn't cropped to fit a fixed height. */}
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl shadow-md transition-transform duration-500 group-hover:scale-[1.01]">
               <Image
                 src={study.image.src}
                 alt={study.image.alt}
