@@ -1,8 +1,10 @@
 import { site } from "@/content/site";
 
 export function SiteFooter() {
+  /* The extra bottom padding keeps the footer links clear of the fixed
+     WhatsApp button, which floats over the bottom-right corner. */
   return (
-    <footer className="w-full bg-surface-container-low py-space-xl">
+    <footer className="w-full bg-surface-container-low pt-space-xl pb-space-2xl">
       <div className="mx-auto flex max-w-container-max flex-col items-center justify-between gap-space-md px-gutter text-body-sm text-on-surface-variant md:flex-row">
         <span>
           © {new Date().getFullYear()} {site.name}. All rights reserved.

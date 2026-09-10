@@ -47,6 +47,29 @@ export const site = {
   resume: null as string | null,
 } as const;
 
+/**
+ * WhatsApp contact.
+ *
+ * `number` must be international format, digits only — no +, spaces,
+ * parentheses or dashes — because that is what wa.me accepts.
+ *
+ * Set NEXT_PUBLIC_WHATSAPP_NUMBER to override. The fallback is the KSA number
+ * already published on the contact page; it was NOT invented, but neither has
+ * it been confirmed as WhatsApp-registered. Set the variable to an empty
+ * string to hide the button entirely.
+ */
+export const whatsapp = {
+  number: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "966540892061",
+  message: "Hi Ryan, I found your portfolio and would like to connect.",
+};
+
+/** wa.me deep link, or null when no number is configured. */
+export function whatsappHref(): string | null {
+  const digits = whatsapp.number.replace(/\D/g, "");
+  if (!digits) return null;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(whatsapp.message)}`;
+}
+
 export const navItems = [
   { label: "About", href: "/" },
   { label: "Work", href: "/work" },

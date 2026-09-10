@@ -22,12 +22,16 @@ import type { NextConfig } from "next";
  *     policy stays strict.
  *   ws: / wss: — the HMR socket. Browsers disagree on whether 'self' covers
  *     the ws: scheme, so it is named explicitly rather than relied upon.
+ *   va.vercel-scripts.com — @vercel/analytics loads its debug build from there
+ *     in development. In production it loads /_vercel/insights/script.js and
+ *     beacons to /_vercel/insights/*, both same-origin, so the shipped policy
+ *     needs no analytics exception at all.
  */
 const isDev = process.env.NODE_ENV === "development";
 
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval' https://va.vercel-scripts.com" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob:",

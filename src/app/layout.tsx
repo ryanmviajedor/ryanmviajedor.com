@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { ICON_SUBSET } from "@/components/site/icon";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
+import { WhatsAppButton } from "@/components/site/whatsapp-button";
 import { site } from "@/content/site";
 
 import "./globals.css";
@@ -123,6 +125,8 @@ export default function RootLayout({
           {children}
         </main>
         <SiteFooter />
+        <WhatsAppButton />
+        <Analytics />
       </body>
     </html>
   );
