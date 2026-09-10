@@ -1,16 +1,16 @@
+import { CaseStudyCard } from "@/components/sections/case-study-card";
 import { PageHeader } from "@/components/sections/page-header";
 import { PrincipleCard } from "@/components/sections/principle-card";
-import { ProjectCard } from "@/components/sections/project-card";
 import { SectionHeading } from "@/components/sections/section-heading";
+import { TechStack } from "@/components/sections/tech-stack";
+import { WorkPlaceholder } from "@/components/sections/work-placeholder";
+import { caseStudies } from "@/content/case-studies";
 import { principles } from "@/content/principles";
-import { projects } from "@/content/projects";
-import { tools } from "@/content/tools";
-import { ToolCard } from "@/components/sections/tool-card";
 
 export const metadata = {
   title: "Work",
   description:
-    "Selected mobile products and engineering systems built for real users — Aldrees, payments, delivery automation, and cross-platform architecture.",
+    "Selected mobile engineering work by Ryan Viajedor — production Flutter, Android and iOS delivery.",
   alternates: { canonical: "/work" },
 };
 
@@ -21,41 +21,24 @@ export default function WorkPage() {
         eyebrow="Portfolio"
         eyebrowTone="amber"
         title="Selected work"
-        lead="Mobile products and engineering systems built for real users."
-        aside={
-          <div className="flex items-center gap-space-sm text-body-md text-outline">
-            <span>2021 — Present</span>
-            <span aria-hidden="true" className="size-1.5 rounded-full bg-outline" />
-            <span>{projects.length} Featured Systems</span>
-          </div>
-        }
+        lead="Mobile products and engineering systems built for production."
       />
 
-      <section className="mx-auto flex max-w-container-max flex-col gap-space-2xl px-gutter pb-space-2xl">
-        {projects.map((project, index) => (
-          <ProjectCard
-            key={project.slug}
-            project={project}
+      <section className="mx-auto flex max-w-container-max flex-col gap-space-xl px-gutter pb-space-2xl">
+        {caseStudies.map((study, index) => (
+          <CaseStudyCard
+            key={study.slug}
+            study={study}
             reversed={index % 2 === 1}
             priority={index === 0}
           />
         ))}
+        <WorkPlaceholder />
       </section>
 
       <section className="bg-surface-container py-space-2xl">
         <div className="mx-auto flex max-w-container-max flex-col gap-space-2xl px-gutter">
-          <div>
-            <SectionHeading
-              eyebrow="Capabilities"
-              title="Tools I work with"
-              className="mb-space-lg"
-            />
-            <div className="grid grid-cols-1 gap-space-md md:grid-cols-2 lg:grid-cols-4">
-              {tools.map((tool) => (
-                <ToolCard key={tool.title} {...tool} />
-              ))}
-            </div>
-          </div>
+          <TechStack />
 
           <div>
             <SectionHeading

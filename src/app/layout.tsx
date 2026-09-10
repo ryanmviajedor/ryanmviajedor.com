@@ -19,11 +19,11 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} · ${site.role}`,
+    default: `${site.name} — ${site.role} | Flutter, Android & iOS | Riyadh`,
     template: `%s · ${site.name}`,
   },
   description:
-    "Mobile Team Lead specializing in Flutter, native Android & iOS, CI/CD, Fastlane, payments, APIs, and production app delivery.",
+    "Mobile Team Lead in Riyadh specializing in Flutter, Android, iOS, CI/CD, Fastlane, payments, APIs and production mobile app delivery.",
   alternates: { canonical: "/" },
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: site.url,
     siteName: site.name,
-    title: `${site.name} · ${site.role}`,
+    title: `${site.name} — ${site.role} | Flutter, Android & iOS | Riyadh`,
     description:
-      "Mobile products built to ship. Flutter, native Android & iOS, CI/CD, and production delivery.",
+      "Mobile products built to ship. Flutter, Android & iOS, CI/CD and production mobile app delivery.",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} · ${site.role}`,
+    title: `${site.name} — ${site.role} | Riyadh`,
     description: "Mobile products built to ship.",
   },
   robots: {
@@ -75,14 +75,7 @@ const personSchema = {
     addressLocality: "Riyadh",
     addressCountry: "SA",
   },
-  knowsAbout: [
-    "Flutter",
-    "Android",
-    "iOS",
-    "Mobile Architecture",
-    "CI/CD",
-    "Fastlane",
-  ],
+  knowsAbout: [...site.specialties],
   sameAs: [site.links.linkedin, site.links.github],
   worksFor: { "@type": "Organization", name: "Independent" },
   telephone: site.phones.map((p) => p.dial),

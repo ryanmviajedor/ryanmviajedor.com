@@ -29,7 +29,7 @@ export function PageHeader({
             <span
               className={cn(
                 "mb-space-3xs block text-label-md uppercase tracking-wider",
-                eyebrowTone === "amber" ? "text-amber-accent" : "text-outline"
+                eyebrowTone === "amber" ? "text-amber-text" : "text-outline"
               )}
             >
               {eyebrow}

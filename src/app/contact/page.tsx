@@ -114,12 +114,12 @@ export default function ContactPage() {
             Ready to start?
           </span>
           <h2 className="mb-space-md text-headline-lg-mobile text-text-charcoal md:text-headline-lg">
-            Have a mobile product to build?
+            Looking for a Mobile Team Lead who can ship?
           </h2>
           <p className="mb-space-lg text-body-lg text-on-surface-variant">
-            Whether you have complete specifications or just an initial product
-            vision, let&apos;s discuss how we can turn it into an exceptional
-            mobile experience.
+            {site.openTo} If you&apos;re hiring for mobile engineering or
+            leadership, I&apos;m glad to talk through architecture, delivery
+            process, or how I&apos;ve run teams.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-space-sm">
             <Button asChild variant="contained" size="lg">
@@ -129,11 +129,19 @@ export default function ContactPage() {
               </a>
             </Button>
             <Button asChild variant="secondary" size="lg">
-              <a href={`tel:${site.phones[0].dial}`}>
-                Call {site.phones[0].region}
-                <Icon name="call" className="text-[18px]" />
+              <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+                <Icon name="open_in_new" className="text-[18px]" />
               </a>
             </Button>
+            {site.resume ? (
+              <Button asChild variant="secondary" size="lg">
+                <a href={site.resume} target="_blank" rel="noopener noreferrer">
+                  Resume
+                  <Icon name="description" className="text-[18px]" />
+                </a>
+              </Button>
+            ) : null}
           </div>
         </div>
       </section>
@@ -169,7 +177,7 @@ function ChannelRow({
           <Icon
             name={channel.icon as IconName}
             className={cn(
-              "text-text-charcoal group-hover:text-amber-accent",
+              "text-text-charcoal group-hover:text-amber-text",
               prominent ? "" : "text-[18px]"
             )}
           />

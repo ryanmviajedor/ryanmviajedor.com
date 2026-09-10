@@ -24,7 +24,7 @@ export function SectionHeading({
           className={cn(
             "text-label-md uppercase",
             eyebrowTone === "amber"
-              ? "font-semibold tracking-wider text-amber-accent"
+              ? "font-semibold tracking-wider text-amber-text"
               : "tracking-wider text-outline"
           )}
         >

@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { navItems } from "@/content/site";
+import { Icon } from "@/components/site/icon";
+import { navItems, site } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 /** Desktop nav. Active state comes from the route, not a hand-set attribute. */
@@ -13,7 +14,8 @@ export function SiteNav() {
   return (
     <nav aria-label="Main" className="hidden items-center gap-space-md md:flex">
       {navItems.map((item) => {
-        const isActive = pathname === item.href;
+        const isActive =
+          item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
         return (
           <Link
             key={item.href}
@@ -30,6 +32,19 @@ export function SiteNav() {
           </Link>
         );
       })}
+
+      {/* Only rendered once a real resume file exists — never a dead link. */}
+      {site.resume ? (
+        <a
+          href={site.resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-space-3xs rounded-lg px-space-xs py-space-3xs text-body-md text-on-surface-variant transition-colors hover:text-on-surface"
+        >
+          Resume
+          <Icon name="description" className="text-[16px]" />
+        </a>
+      ) : null}
     </nav>
   );
 }

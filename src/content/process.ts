@@ -1,100 +1,81 @@
-export type ProcessCard = {
-  icon: string;
-  title: string;
-  body: string;
-};
-
-export type ProcessChapter = {
+export type ProcessStep = {
   number: string;
   title: string;
+  /** The one-line summary, straight from Ryan's brief. */
   lead: string;
   body: string;
-  cards: ProcessCard[];
+  points: string[];
 };
 
-export const processChapters: ProcessChapter[] = [
+/**
+ * How a mobile product gets built, start to finish. This is methodology —
+ * how the work is approached — not a claim about any particular project.
+ */
+export const processSteps: ProcessStep[] = [
   {
     number: "01",
-    title: "DISCOVER",
-    lead: "Understand the product before writing code.",
-    body: "Every robust application starts with clarity. I align technical scope with business metrics, map out user journeys, and establish resilient foundational architecture before a single line of production code is written.",
-    cards: [
-      {
-        icon: "explore",
-        title: "Product & Requirements",
-        body: "Product requirements, user flows, and clear acceptance criteria.",
-      },
-      {
-        icon: "architecture",
-        title: "Technical Discovery",
-        body: "API analysis, platform strategy, and scalable architecture planning.",
-      },
-      {
-        icon: "map",
-        title: "UX & Journey Mapping",
-        body: "Frictionless user flows and state management mapping for all screens.",
-      },
-      {
-        icon: "schedule",
-        title: "Delivery Planning",
-        body: "Milestone definition, development roadmaps, and release planning.",
-      },
+    title: "Understand",
+    lead: "Product goals, users, requirements, constraints.",
+    body: "Before any architecture decision, get clear on what the product has to do and what it has to survive — the devices it runs on, the networks it runs over, and the constraints that won't move. Most expensive mobile rewrites trace back to a constraint nobody named early.",
+    points: [
+      "Product goals and success criteria",
+      "User flows and platform expectations",
+      "Technical and delivery constraints",
     ],
   },
   {
     number: "02",
-    title: "BUILD",
-    lead: "Turn product direction into a reliable app.",
-    body: "Writing clean, modular, and maintainable code across platforms. Whether building multi-platform experiences with Flutter or native powerhouses with Kotlin and Swift, performance and testability are paramount.",
-    cards: [
-      {
-        icon: "devices",
-        title: "Cross-Platform & Native",
-        body: "Expertise in Flutter, Android/Kotlin, and iOS/Swift development.",
-      },
-      {
-        icon: "api",
-        title: "Integrations & State",
-        body: "Secure API integration, authentication, payments, and robust state management.",
-      },
-      {
-        icon: "verified",
-        title: "Testing & Quality",
-        body: "Comprehensive unit/widget testing, code reviews, and strict architecture patterns.",
-      },
-      {
-        icon: "speed",
-        title: "Performance Optimization",
-        body: "Frame-rate optimization, memory leak prevention, and asset sizing.",
-      },
+    title: "Architect",
+    lead: "Architecture, APIs, state management, scalability.",
+    body: "Decide the shape of the codebase while it's still cheap to change. Module boundaries, how state moves, and what the API contract guarantees — chosen so the second year of feature work costs about what the first did.",
+    points: [
+      "Module boundaries and layering",
+      "State management and data flow",
+      "API contracts and error handling",
     ],
   },
   {
     number: "03",
-    title: "DELIVER",
-    lead: "Ship the application with confidence.",
-    body: "Deployment should be routine, not stressful. I implement fully automated CI/CD pipelines, robust crash reporting, and proactive monitoring to ensure healthy operations long after launch day.",
-    cards: [
-      {
-        icon: "all_inclusive",
-        title: "CI/CD & Fastlane",
-        body: "Automated builds, code signing, and continuous integration workflows.",
-      },
-      {
-        icon: "rocket_launch",
-        title: "Store Deployments",
-        body: "Seamless App Store and Google Play release management and beta tracks.",
-      },
-      {
-        icon: "monitoring",
-        title: "Monitoring & Analytics",
-        body: "Real-time crash tracking, performance monitoring, and error logging.",
-      },
-      {
-        icon: "support_agent",
-        title: "Support & Evolution",
-        body: "Long-term production support and continuous feature iteration.",
-      },
+    title: "Build",
+    lead: "Flutter and native Android/iOS where appropriate.",
+    body: "Write the product, reaching for native where the platform genuinely differs and sharing code where it doesn't. Cross-platform is a default, not a rule — some things belong in Kotlin or Swift, and pretending otherwise costs more than the shared code saves.",
+    points: [
+      "Flutter for shared product surface",
+      "Native where the platform demands it",
+      "Reviewed in small, releasable increments",
+    ],
+  },
+  {
+    number: "04",
+    title: "Validate",
+    lead: "Testing, performance, reliability, crash monitoring.",
+    body: "Prove it holds up before users do. Automated tests around the logic that matters, performance checked on real devices rather than the newest one, and crash reporting wired in from the first build so production tells you the truth.",
+    points: [
+      "Unit and widget test coverage",
+      "Performance on representative devices",
+      "Crash and error monitoring in place",
+    ],
+  },
+  {
+    number: "05",
+    title: "Automate",
+    lead: "CI/CD, Fastlane, automated builds and releases.",
+    body: "Take the humans out of the release path. Builds, signing, and store uploads run the same way every time, so a release is a pipeline run rather than an afternoon — and the person who knows the incantation stops being a dependency.",
+    points: [
+      "CI on every change",
+      "Fastlane for signing and upload",
+      "Repeatable beta and production tracks",
+    ],
+  },
+  {
+    number: "06",
+    title: "Ship",
+    lead: "Production release, monitoring and continuous improvement.",
+    body: "Release, then watch. Staged rollouts so a bad build reaches few people, monitoring that surfaces problems before reviews do, and a feedback loop that turns what production teaches into the next iteration.",
+    points: [
+      "Staged rollout and release monitoring",
+      "Store feedback and crash triage",
+      "Iterate on what production reveals",
     ],
   },
 ];

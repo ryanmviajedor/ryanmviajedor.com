@@ -3,35 +3,27 @@ import { cn } from "@/lib/utils";
 /**
  * Every Material Symbol used across the site. The union is the single source
  * of truth: it type-checks call sites AND feeds the `icon_names` subset in
- * layout.tsx, so we ship ~25 glyphs instead of the full variable font.
- * Adding an icon means adding it here and to ICON_SUBSET below.
+ * layout.tsx, so we ship only the glyphs we draw.
+ *
+ * Adding an icon means adding it here and nowhere else. Removing one from the
+ * site means removing it here, or we keep paying to fetch it.
  */
 export const ICON_NAMES = [
-  "all_inclusive",
   "api",
   "architecture",
   "arrow_forward",
   "bolt",
   "call",
   "chat",
-  "close",
   "code",
-  "devices",
-  "explore",
+  "description",
   "groups",
   "mail",
-  "map",
   "menu",
-  "monitoring",
   "open_in_new",
-  "rocket_launch",
-  "schedule",
   "settings_suggest",
   "share",
   "smartphone",
-  "speed",
-  "support_agent",
-  "verified",
 ] as const;
 
 export type IconName = (typeof ICON_NAMES)[number];

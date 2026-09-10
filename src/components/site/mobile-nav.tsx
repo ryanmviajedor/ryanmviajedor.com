@@ -44,7 +44,8 @@ export function MobileNav() {
 
         <nav aria-label="Mobile" className="mt-space-lg flex flex-col gap-space-2xs">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
@@ -63,6 +64,20 @@ export function MobileNav() {
               </Link>
             );
           })}
+
+          {/* Gated on a real file existing — see site.resume. */}
+          {site.resume ? (
+            <a
+              href={site.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-between rounded-lg px-space-sm py-space-xs text-body-lg text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface"
+            >
+              Resume
+              <Icon name="description" className="text-[18px]" />
+            </a>
+          ) : null}
         </nav>
       </SheetContent>
     </Sheet>
